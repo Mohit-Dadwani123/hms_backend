@@ -16,5 +16,11 @@
     "MONGO_URI": "@mongo-uri",
     "JWT_SECRET": "@jwt-secret",
     "OTHER_ENV_VAR": "@other-env-var"
+  },
+  "functions": {
+    "index.js": {
+      "memory": 512,
+      "maxDuration": 10
+    }
   }
 }
