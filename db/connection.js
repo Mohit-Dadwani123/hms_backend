@@ -1,26 +1,17 @@
-const mongoose = require("mongoose");
 const service=require('../model/service')
-
-
 const PORT = 8080;
-
-
-
- mongoose_connection = async(app)=>{
-  mongoose
-  .connect(process.env.DB_URL)
-  .then(() => {
-    
-    console.log("db connected success");
-     
-    app.listen(PORT, "0.0.0.0",() => {
-      console.log(`listening at port ${PORT}`);
+const mongoose = require("mongoose");
+const mongoose_connection = async () => {
+  try {
+    await mongoose.connect(process.env.DB_URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
     });
-  })
-  .catch((error) => {
-    console.log(error);
-  });
- 
- }
-  module.exports = mongoose_connection;
+    console.log("db connected success");
+  } catch (error) {
+    console.log("db connection failed", error);
+    process.exit(1);  // Exit if DB connection fails
+  }
+};
 
+module.exports = mongoose_connection;
