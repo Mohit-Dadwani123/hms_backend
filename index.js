@@ -13,32 +13,28 @@ const doctor = require("./model/doctor");
 
 const app = express();
 
-// Allow CORS for any origin
 app.use(cors({
-  origin: '*',  // This allows all origins, you can change it to specific origins if needed
+  origin: '*',
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
   credentials: true,
 }));
 
-// Database connection
 mongoose_connection(app);
 
-// Middleware
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-app.use(morgan('dev')); // Use Morgan for logging
+app.use(morgan('dev'));
 
-// Use your routes
 app.use("/public", public_router);
 app.use(auth_router);
 app.use(admin_router);
 app.use(patient_router);
 app.use(doctor_router);
 
-// Catch-all route to avoid default "Hello World" page
 app.all('*', (req, res) => {
   res.status(404).send('Not Found');
 });
 
+// Export the app as a serverless function
 module.exports = app;
